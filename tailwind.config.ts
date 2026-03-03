@@ -8,11 +8,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+        fontFamily: {
+            // sans: ['var(--font-imbPlexSans)'],
+            // inter: ['var(--font-inter)']
+        },
+        backgroundImage: {
+            gradient: "url('/static/background.png')",
+        },
+        colors: {
+            purple: {
+                951: 'rgba(79, 70, 229, 1)',
+            },
+            gray: {
+                950: 'hsla(0, 0%, 100%, 0.7);',
+                951: 'hsla(0, 0%, 100%, 0.4);',
+                952: '#373b64',
+            },
+        },
     },
   },
   plugins: [],
