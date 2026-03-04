@@ -1,7 +1,15 @@
 'use client';
 
-export default function Banner() {
-  function handleOnClick() {}
+import Image from 'next/image';
+import { MouseEventHandler } from 'react';
+
+export default function Banner({
+  handleOnClick,
+  buttonText,
+}: {
+  handleOnClick: MouseEventHandler<HTMLButtonElement> | undefined;
+  buttonText: string;
+}) {
   return (
     <div className="mb-12 grid lg:mb-24 lg:grid-cols-2">
       <div className="z-20 flex flex-col px-2 md:pt-12">
@@ -13,8 +21,17 @@ export default function Banner() {
           Discover you local coffee shops!
         </p>
         <div className="mt-12">
-          <button onClick={handleOnClick}>View stores nearby</button>
+          <button onClick={handleOnClick}>{buttonText}</button>
         </div>
+      </div>
+      <div className="absolute top-2 z-10 md:top-0 md:mt-12 md:pl-10 md:pt-0 lg:right-1/4 lg:flex lg:pl-20">
+        <Image
+          alt={'banner'}
+          src={'/static/hero-image.png'}
+          width={800}
+          height={300}
+          priority={false}
+        />
       </div>
     </div>
   );

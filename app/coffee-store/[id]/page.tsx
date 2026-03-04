@@ -3,29 +3,29 @@ import { CoffeeStoreType } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
-async function getData(id: string, type: string) {
-  return await fetchCoffeeStoreById(id, type);
+async function getData(id: string, type: string, queryId: string) {
+  return await fetchCoffeeStoreById(id, type, queryId);
 }
 
-export async function generateStaticParams() {
-  const coffeeStores = await fetchCoffeeStores();
+// export async function generateStaticParams() {
+//   const coffeeStores = await fetchCoffeeStores();
 
-  return coffeeStores.map((coffeeStore: CoffeeStoreType) => ({
-    id: coffeeStore.id.toString(),
-    type: coffeeStore.type,
-  }));
-}
+//   return coffeeStores.map((coffeeStore: CoffeeStoreType) => ({
+//     id: coffeeStore.id.toString(),
+//     type: coffeeStore.type,
+//   }));
+// }
 
 export default async function DynamicCoffeeStoreByIdPage(props: {
   params: { id: string };
-  searchParams: { type: string };
+  searchParams: { type: string; queryId: string };
 }) {
   const {
     params: { id },
-    searchParams: { type },
+    searchParams: { type, queryId },
   } = props;
 
-  const coffeeStoreById = await getData(id, type);
+  const coffeeStoreById = await getData(id, type, queryId);
 
   const {
     name = '',
