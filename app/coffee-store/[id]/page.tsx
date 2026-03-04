@@ -7,14 +7,22 @@ async function getData(id: string, type: string, queryId: string) {
   return await fetchCoffeeStoreById(id, type, queryId);
 }
 
-// export async function generateStaticParams() {
-//   const coffeeStores = await fetchCoffeeStores();
+export async function generateStaticParams() {
+  const BHARATPUR = {
+    latitude: '27.583331',
+    longitude: '84.5166646',
+  };
+  const coffeeStores = await fetchCoffeeStores(
+    BHARATPUR.latitude,
+    BHARATPUR.longitude,
+    6,
+  );
 
-//   return coffeeStores.map((coffeeStore: CoffeeStoreType) => ({
-//     id: coffeeStore.id.toString(),
-//     type: coffeeStore.type,
-//   }));
-// }
+  return coffeeStores.map((coffeeStore: CoffeeStoreType) => ({
+    id: coffeeStore.id.toString(),
+    type: coffeeStore.type,
+  }));
+}
 
 export default async function DynamicCoffeeStoreByIdPage(props: {
   params: { id: string };

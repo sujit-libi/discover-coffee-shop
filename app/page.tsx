@@ -11,7 +11,7 @@ async function getData() {
     latitude: '27.583331',
     longitude: '84.5166646',
   };
-  return await fetchCoffeeStores(BHARATPUR.latitude, BHARATPUR.longitude, 10);
+  return await fetchCoffeeStores(BHARATPUR.latitude, BHARATPUR.longitude, 6);
 }
 
 export default async function Home() {
