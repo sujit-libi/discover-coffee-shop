@@ -1,10 +1,23 @@
+import Upvote from '@/components/upvote.client';
+import { createCoffeeStore, findRecordByFilter } from '@/lib/airtable';
 import { fetchCoffeeStoreById, fetchCoffeeStores } from '@/lib/coffee-stores';
-import { CoffeeStoreType } from '@/types';
+import { CoffeeStoreType, ServerParamsType } from '@/types';
+import { getDomain } from '@/utils';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
 async function getData(id: string, type: string, queryId: string) {
-  return await fetchCoffeeStoreById(id, type, queryId);
+  const coffeeStoreFromOSM = await fetchCoffeeStoreById(id, type, queryId);
+  const _createCoffeeStore = await createCoffeeStore(coffeeStoreFromOSM, id);
+
+  const voting = _createCoffeeStore ? _createCoffeeStore[0].voting : 0;
+  return coffeeStoreFromOSM
+    ? {
+        ...coffeeStoreFromOSM,
+        voting,
+      }
+    : {};
 }
 
 export async function generateStaticParams() {
@@ -24,6 +37,26 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({
+  params,
+  searchParams,
+}: ServerParamsType) {
+  const coffeeStore = await fetchCoffeeStoreById(
+    params.id,
+    searchParams.type,
+    searchParams.queryId,
+  );
+  const { name = '' } = coffeeStore;
+  return {
+    title: name,
+    description: `${name} - Coffee Store`,
+    metadataBase: getDomain(),
+    alternates: {
+      canonical: `/coffee-store/${params.id}`,
+    },
+  };
+}
+
 export default async function DynamicCoffeeStoreByIdPage(props: {
   params: { id: string };
   searchParams: { type: string; queryId: string };
@@ -40,6 +73,7 @@ export default async function DynamicCoffeeStoreByIdPage(props: {
     address = {},
     imgUrl = '',
     display_name = '',
+    voting = 0,
   } = coffeeStoreById;
 
   return (
@@ -67,6 +101,7 @@ export default async function DynamicCoffeeStoreByIdPage(props: {
                 <p className="pl-2">{address?.country}</p>
               </div>
             ))}
+          <Upvote voting={voting} id={id} />
         </div>
       </div>
     </div>

@@ -3,16 +3,30 @@ import Card from '@/components/card.server';
 import NearByCoffeeStore from '@/components/nearby-coffee-store.client';
 import { fetchCoffeeStores } from '@/lib/coffee-stores';
 import { CoffeeStoreType } from '@/types';
+import { getDomain } from '@/utils';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
 async function getData() {
+  if (!process.env.UNSPLASH_ACCESS_KEY || !process.env.AIRTABLE_API_TOKEN) {
+    throw new Error('One of the API keys is not configured!!!!');
+  }
   const BHARATPUR = {
     latitude: '27.583331',
     longitude: '84.5166646',
   };
   return await fetchCoffeeStores(BHARATPUR.latitude, BHARATPUR.longitude, 6);
 }
+
+export const metadata: Metadata = {
+  title: 'Coffee Connoisseur',
+  description: 'Allows you to discover coffee stores near you',
+  metadataBase: getDomain(),
+  alternates: {
+    canonical: '/',
+  },
+};
 
 export default async function Home() {
   const coffeeStores = await getData();

@@ -2,8 +2,15 @@ export type CoffeeStoreType = {
   id: string;
   name: string;
   imgUrl: string;
-  address: string;
+  address: {
+    county: string;
+    road: string;
+    state: string;
+    country: string;
+    city: string;
+  };
   type: string;
+  voting: number;
 };
 
 export type CoffeeStoreByIdType = {
@@ -14,6 +21,7 @@ export type CoffeeStoreByIdType = {
   address: {
     county: string;
     road: string;
+    state: string;
     country: string;
     city: string;
   };
@@ -25,4 +33,15 @@ export type PhotonType = {
   street: string;
   country: string;
   osm_type: string;
+};
+
+export type AirtableRecordType = {
+  id: string;
+  recordId: string;
+  fields: CoffeeStoreType;
+};
+
+export type ServerParamsType = {
+  params: { id: string };
+  searchParams: { type: string; queryId: string };
 };

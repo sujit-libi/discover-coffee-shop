@@ -55,12 +55,15 @@ export async function fetchCoffeeStores(
     );
     const photos = await getListOfCoffeeStorePhotos();
     const data = await response.json();
-    return data.features.map(
-      ({ properties }: { properties: PhotonType }, idx: number) =>
-        transformCoffeeData(idx, properties, photos),
+    return (
+      data?.features?.map(
+        ({ properties }: { properties: PhotonType }, idx: number) =>
+          transformCoffeeData(idx, properties, photos),
+      ) || []
     );
   } catch (error) {
     console.error('Error while fetching coffee stores', error);
+    return [];
   }
 }
 
@@ -76,13 +79,15 @@ export async function fetchCoffeeStoreById(
     );
     const data = await response.json();
     const photos = await getListOfCoffeeStorePhotos();
-    const coffeeStore = data.map((result: CoffeeStoreByIdType, idx: number) =>
-      // transformCoffeeStoreByIdData(parseInt(queryId), result, photos),
-      transformCoffeeStoreByIdData(idx, result, photos),
-    );
+    const coffeeStore =
+      data?.map((result: CoffeeStoreByIdType, idx: number) =>
+        // transformCoffeeStoreByIdData(parseInt(queryId), result, photos),
+        transformCoffeeStoreByIdData(idx, result, photos),
+      ) || [];
 
     return coffeeStore.length > 0 ? coffeeStore[0] : {};
   } catch (error) {
     console.error('Error while fetching coffee stores', error);
+    return {};
   }
 }
