@@ -1,7 +1,7 @@
 export const getDomain = () => {
   return new URL(
     process.env.NODE_ENV === 'production'
-      ? 'https://sujitlibi.com.np'
+      ? 'https://discover-coffee-shop-mu.vercel.app'
       : 'http://localhost:3000',
   );
 };
